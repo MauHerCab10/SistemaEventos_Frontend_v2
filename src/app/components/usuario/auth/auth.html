@@ -1,1 +1,74 @@
-<p>auth works!</p>
+<div class="page-container">
+  <div class="container" 
+       [class.right-panel-visibility]="isSignUpMode"
+       [class.forgot-password-visibility]="isForgotPasswordMode"
+       [class.update-password-visibility]="isUpdatePasswordMode"
+       [class.disabled]="screenLoading">
+    @if (screenLoading) {
+      <div class="loader-overlay">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    <!-- Sign Up Form -->
+    <div class="form-container sign-up-container">
+      <app-signup
+        (registroExitoso)="onRegistroExitoso()"
+        (screenLoadingChange)="onChangeLoadingScreen($event)">
+        <!-- (socialLogin)="onSocialLogin($event)" -->
+        <!-- (signUpSubmit)="onSignUpSubmit($event)" -->
+      </app-signup>
+    </div>
+
+    <!-- Sign In Form -->
+    <div class="form-container sign-in-container">
+      <app-signin
+        (forgotPassword)="onForgotPassword()"
+        (screenLoadingChange)="onChangeLoadingScreen($event)">
+        <!-- (socialLogin)="onSocialLogin($event)" -->
+        <!-- (signInSubmit)="onSignInSubmit($event)" -->
+      </app-signin>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div class="form-container forgot-password-container">
+      <app-forgot-password
+        (backToSignIn)="onBackToSignIn()"
+        (screenLoadingChange)="onChangeLoadingScreen($event)">
+        <!-- (submitForm)="onForgotPasswordSubmit($event)" -->
+      </app-forgot-password>
+    </div>
+
+    <!-- Update Password Form -->
+    <div class="form-container update-password-container">
+      <app-update-password
+        (backToSignIn)="onBackToSignIn()"
+        (screenLoadingChange)="onChangeLoadingScreen($event)">
+        <!-- (submitForm)="onUpdatePasswordSubmit($event)" -->
+      </app-update-password>
+    </div>
+
+    <!-- Overlay Container -->
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button class="ghost" (click)="switchToSignIn()">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <button class="ghost" (click)="switchToSignUp()">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>
+      Created with <i class="fa fa-heart"></i> by
+      <a href="#">MHC</a>
+    </p>
+  </footer>
+</div>

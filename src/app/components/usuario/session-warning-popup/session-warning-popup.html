@@ -1,1 +1,7 @@
-<p>session-warning-popup works!</p>
+<div class="dialog-container">
+    <h2>⚠️ ¡Sesión inactiva!</h2>
+    <p>Tu sesión se cerrará automáticamente en <b>{{data.countdown}}</b> segundos.</p>
+    <div class="actions">
+        <button mat-raised-button color="primary" (click)="ContinuarSesionActiva()">Continuar</button>
+    </div>
+</div>

@@ -1,4 +1,496 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Estilos globales de Angular Material */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* INICIO Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+/* FIN Reset básico */
+
+
+/* INICIO controles estandar */
+h1 {
+  font-weight: bold;
+  margin: 0;
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
+
+span {
+  font-size: 12px;
+}
+
+a {
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px;
+  cursor: pointer;
+}
+
+button {
+  border-radius: 20px;
+  border: 1px solid #FF4B2B;
+  background-color: #FF4B2B;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ghost {
+    background-color: transparent;
+    border-color: #FFFFFF;
+  }
+}
+
+form {
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+}
+
+input {
+  background-color: #efefef;
+  border: 1px solid #b9b9b9;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 4px;
+  transition: border 0.3s ease;
+}
+
+input:focus {
+  border-color: #2196F3;
+  outline: none;
+}
+/* FIN controles estandar */
+
+
+/* INICIO Contenedor principal de elementos en pantalla */
+/* Estilo #1 */
+/* .page-container {
+  background-color: #fafbfc;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.02) 10px, rgba(0,0,0,.02) 20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+} */
+
+/* Estilo #2 */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  
+  /* Paleta de colores #1*/
+  background: linear-gradient(45deg, #ffd6a5 0%, #ffb5a7 50%, #fcd5ce 100%);
+  animation: rotateGradient 30s linear infinite;
+
+  /* Paleta de colores #2 */
+  /* background: linear-gradient(45deg, #d4fc79 0%, #96e6a1 50%, #c9f7f5 100%);
+  animation: rotateGradient 30s linear infinite; */
+}
+
+@keyframes rotateGradient {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 30px 10px 100px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); /* Pos.Horizontal, Pos.Vertical, FuerzaSombra, TamañoSombra */
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 40px 0;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.8s ease-in-out;
+}
+
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.container.right-panel-visibility .sign-in-container {
+  transform: translateX(100%);
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.right-panel-visibility .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@keyframes show {
+  0%, 49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+  50%, 100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.container.right-panel-visibility .overlay-container {
+  transform: translateX(-100%);
+}
+
+.overlay {
+  background: #FF416C;
+  background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
+  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #FFFFFF;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-visibility .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container.right-panel-visibility .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.right-panel-visibility .overlay-right {
+  transform: translateX(20%);
+}
+/* FIN Contenedor principal de elementos en pantalla */
+
+
+/* INICIO Redes sociales */
+.social-container {
+  margin: 20px 0;
+}
+
+.social-container a {
+  border: 1px solid #DDDDDD;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  height: 40px;
+  width: 40px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.propiasCuentas {
+  margin: -15px 0px 10px 0px;
+  color: #4d4d4d;
+}
+
+.social {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #dddddd;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social:hover {
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15); /* Sombra suave */
+    color: #ff664b;
+}
+/* FIN Redes sociales */
+
+
+/* INICIO Visualización de error en los campos */
+.campo-error {
+  border: 2px solid #ff1100 !important;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: -2%;
+  margin-bottom: 3%;
+  text-align: left;
+  
+  padding: 0% 0%;
+  margin: 8px -4;
+  width: 100%;
+}
+/* FIN Visualización de error en los campos */
+
+
+/* INICIO Footer */
+footer {
+  background-color: #222;
+  color: #fff;
+  font-size: 14px;
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 999;
+  
+
+  p {
+    margin: 10px 0;
+  }
+
+  i {
+    color: red;
+  }
+
+  a {
+    color: #3c97bf;
+    text-decoration: none;
+  }
+}
+/* FIN Footer */
+
+
+/* INICIO Forgot Password */
+.forgot-password-container {
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  z-index: 1;
+  transform: translateX(100%);
+}
+
+.container.forgot-password-visibility .forgot-password-container {
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 10;
+  animation: show 0.8s;
+}
+
+.container.forgot-password-visibility .sign-in-container {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.container.forgot-password-visibility .sign-up-container {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.container.forgot-password-visibility .overlay-container {
+  transform: translateX(100%);
+}
+/* FIN Forgot Password */
+
+
+/* INICIO Screen Loader */
+.disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 8px solid #ccc;
+  border-top: 8px solid #0044ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+/* FIN Screen Loader */
+
+
+/* INICIO Hipervínculos */
+
+/* Estilo #1 */
+/* .hipervinculo {
+  color: #6b7280;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  font-size: 0.875rem;
+  font-style: italic;
+  border-bottom: 1px dotted #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hipervinculo:hover {
+  color: #3b82f6;
+  border-bottom: 1px solid #3b82f6;
+} */
+
+/* Estilo #2 */
+.hipervinculo {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 15px 8px 15px;
+  margin: 8px 0px 5px 0px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.hipervinculo:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #c82333;
+  text-decoration: none;
+}
+/* FIN Hipervínculos */
+
+
+/* INICIO Update Password */
+.update-password-container {
+  opacity: 0;
+  width: 100%;
+}
+
+.container.update-password-visibility .update-password-container {
+  opacity: 1;
+  z-index: 10;
+}
+
+.container.update-password-visibility .overlay-container,
+.container.update-password-visibility .sign-in-container,
+.container.update-password-visibility .sign-up-container,
+.container.update-password-visibility .forgot-password-container {
+  opacity: 0;
+  transform: translateX(100%);
+}
+/* FIN Update Password */

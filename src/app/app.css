@@ -1,0 +1,15 @@
+.app-container {
+    height: 100vh;
+}
+
+.session-expired-banner {
+    background: #f44336;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}

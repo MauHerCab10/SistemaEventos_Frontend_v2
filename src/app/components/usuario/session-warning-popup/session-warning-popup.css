@@ -1,0 +1,45 @@
+.dialog-container {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(170deg, #e8e8e8, #5a7bff);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  margin: auto;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  color: #3f51b5;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+p b {
+  color: #d32f2f;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+button[mat-raised-button] {
+  background-color: #e4e4e4;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  transition: all 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #61ff61;
+  transform: scale(1.05);
+}

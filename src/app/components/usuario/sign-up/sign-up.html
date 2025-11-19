@@ -1,1 +1,59 @@
-<p>sign-up works!</p>
+<form (ngSubmit)="RegistrarUsuario()" [formGroup]="formSignUp">
+    <h1>Crear cuenta</h1>
+
+    <div class="social-container">
+        <a href="#" class="social" (click)="onSocialLogin('facebook')">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social" (click)="onSocialLogin('google')">
+            <i class="fab fa-google-plus-g"></i>
+        </a>
+        <a href="#" class="social" (click)="onSocialLogin('linkedin')">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+    </div>
+
+    <span class="propiasCuentas">o usa tu correo para registrarte</span>
+
+    <!-- Nombre y Apellido -->
+    <input 
+        type="text" 
+        placeholder="Nombre y Apellido" 
+        formControlName="nombreApellido" 
+        name="nombreApellido"
+        [class.campo-error]="formSignUp.get('nombreApellido')?.invalid && formSignUp.get('nombreApellido')?.touched" 
+    />
+    @if (formSignUp.get('nombreApellido')?.invalid && formSignUp.get('nombreApellido')?.touched) {
+        <div class="error-message">
+            *<b>Nombre y Apellido</b> son obligatorios
+        </div>
+    }
+
+    <!-- Email -->
+    <input 
+        type="email" 
+        placeholder="Email" 
+        formControlName="email"
+        [class.campo-error]="formSignUp.get('email')?.invalid && formSignUp.get('email')?.touched" 
+    />
+    @if (formSignUp.get('email')?.invalid && formSignUp.get('email')?.touched) {
+        <div class="error-message">
+            *<b>Email</b> es obligatorio
+        </div>
+    }
+
+    <!-- Contraseña -->
+    <input 
+        type="password" 
+        placeholder="Contraseña" 
+        formControlName="contrasena"
+        [class.campo-error]="formSignUp.get('contrasena')?.invalid && formSignUp.get('contrasena')?.touched" 
+    />
+    @if (formSignUp.get('contrasena')?.invalid && formSignUp.get('contrasena')?.touched) {
+        <div class="error-message">
+            *<b>Contraseña</b> es obligatorio
+        </div>
+    }
+
+    <button type="submit" class="btn-registrarse">Registrarse</button>
+</form>

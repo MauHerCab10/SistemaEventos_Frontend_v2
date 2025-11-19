@@ -1,0 +1,46 @@
+<form (ngSubmit)="IniciarSesion()" [formGroup]="formSignIn">
+    <h1>Iniciar Sesión</h1>
+
+    <div class="social-container">
+        <a href="#" class="social" (click)="onSocialLogin('facebook')">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social" (click)="onSocialLogin('google')">
+            <i class="fab fa-google-plus-g"></i>
+        </a>
+        <a href="#" class="social" (click)="onSocialLogin('linkedin')">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+    </div>
+
+    <span class="propiasCuentas">o usa tu propia cuenta</span>
+    
+    <!-- Email -->
+    <input 
+        type="email" 
+        placeholder="Email" 
+        formControlName="email" 
+        [class.campo-error]="formSignIn.get('email')?.invalid && formSignIn.get('email')?.touched" 
+    />
+    @if (formSignIn.get('email')?.invalid && formSignIn.get('email')?.touched) {
+        <div class="error-message">
+            *<b>Email</b> es obligatorio
+        </div>
+    }
+
+    <!-- Contraseña -->
+    <input 
+        type="password" 
+        placeholder="Contraseña" 
+        formControlName="contrasena" 
+        [class.campo-error]="formSignIn.get('contrasena')?.invalid && formSignIn.get('contrasena')?.touched" 
+    />
+    @if (formSignIn.get('contrasena')?.invalid && formSignIn.get('contrasena')?.touched) {
+        <div class="error-message">
+            *<b>Contraseña</b> es obligatorio
+        </div>
+    }
+
+    <a (click)="onForgotPassword()" class="hipervinculo">¿Olvidaste tu contraseña?</a>
+    <button type="submit" class="btn-loguearse">Ingresar</button>
+</form>

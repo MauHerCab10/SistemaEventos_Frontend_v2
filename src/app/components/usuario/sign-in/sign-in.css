@@ -1,5 +1,5 @@
-.btn-registrarse {
-  margin-top: 18px;
+.btn-loguearse {
+  margin-top: 5px;
   padding: 12px 30px;
   font-size: 14px;
   border: none;
@@ -8,6 +8,6 @@
   transition: 0.2s ease;
 }
 
-.btn-registrarse:hover {
+.btn-loguearse:hover {
   opacity: 0.8;
 }
