@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, OnInit, inject } from '@angular/core'; //ViewChild: nos permite crear una instancia de algún componente q tenemos dentro de nuestro HTML
+import { Component, AfterViewInit, ViewChild, OnInit, inject, ChangeDetectorRef  } from '@angular/core'; //ViewChild: nos permite crear una instancia de algún componente q tenemos dentro de nuestro HTML
 import { CommonModule, DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -74,7 +74,8 @@ export class EventosComponent {
     private _servicioUtilidad: UtilityService,
     private _servicioEvento: EventoService,
     private _servicioAcceso: AccessService,
-    private _sessionService: SessionTimeoutService
+    private _sessionService: SessionTimeoutService,
+    private cdr: ChangeDetectorRef
   ){}
 
   ngOnInit(): void {
@@ -165,6 +166,9 @@ export class EventosComponent {
       cancelButtonText: "No. Cancelar"
     }).then((resultado) => {
       if(resultado.isConfirmed){
+        this.screenLoading = true;
+        this.cdr.detectChanges();
+
         this._servicioEvento.EliminarEvento(evento.idEvento).subscribe({
           next: (response) => {
             if(response.isSuccess){
@@ -174,7 +178,14 @@ export class EventosComponent {
               this._servicioUtilidad.MostarAlerta("Error al eliminar el evento.", "Error");
             }
           },
-          error: (e) => {}
+          error: (ex) => {
+            this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+            console.log(ex.message);
+          },
+          complete: () => {
+            this.screenLoading = false;
+            this.cdr.detectChanges();
+          }
         });
       }
     });
@@ -193,6 +204,9 @@ export class EventosComponent {
       cancelButtonText: "No. Cancelar"
     }).then((resultado) => {
       if(resultado.isConfirmed){
+        this.screenLoading = true;
+        this.cdr.detectChanges();
+
         this._servicioEvento.InscripcionAEvento(evento.idEvento, Number(this.idUsuario)).subscribe({
           next: (response) => {
             if(response.isSuccess){
@@ -202,7 +216,14 @@ export class EventosComponent {
               this._servicioUtilidad.MostarAlerta("Error al inscribirse al evento.", "Error");
             }
           },
-          error: (e) => {}
+          error: (ex) => {
+            this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+            console.log(ex.message);
+          },
+          complete: () => {
+            this.screenLoading = false;
+            this.cdr.detectChanges();
+          }
         });
       }
     });
@@ -221,6 +242,9 @@ export class EventosComponent {
       cancelButtonText: "No. Cancelar"
     }).then((resultado) => {
       if(resultado.isConfirmed){
+        this.screenLoading = true;
+        this.cdr.detectChanges();
+        
         this._servicioEvento.DimisionDeEvento(evento.idEvento, Number(this.idUsuario)).subscribe({
           next: (response) => {
             if(response.isSuccess){
@@ -230,7 +254,14 @@ export class EventosComponent {
               this._servicioUtilidad.MostarAlerta("Error al darse de baja del evento.", "Error");
             }
           },
-          error: (e) => {}
+          error: (ex) => {
+            this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+            console.log(ex.message);
+          },
+          complete: () => {
+            this.screenLoading = false;
+            this.cdr.detectChanges();
+          }
         });
       }
     });
