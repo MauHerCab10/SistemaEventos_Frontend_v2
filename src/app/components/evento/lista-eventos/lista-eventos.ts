@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, OnInit, inject } from '@angular/core'; //ViewChild: nos permite crear una instancia de algún componente q tenemos dentro de nuestro HTML
 import { CommonModule, DatePipe } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 //Componentes de Angular Material:
 import { MatCardModule } from '@angular/material/card';
@@ -64,8 +65,10 @@ export class EventosComponent {
   @ViewChild(MatPaginator) paginacionTabla! : MatPaginator; //el signo (!) ayuda a q la variable nunca sea null y q siempre tenga valor
   idUsuario = sessionStorage.getItem("idUsuario") || '';
   suscripcionesUsuarioActual: number = 0;
+  textoBusqueda: string = '';
   
   constructor(
+    private sanitizer: DomSanitizer,
     private dialog: MatDialog,
     private datePipe: DatePipe,
     private _servicioUtilidad: UtilityService,
@@ -116,8 +119,18 @@ export class EventosComponent {
   }
 
   AplicarFiltroBusquedaTabla(event: Event){
-    var filterValue = (event.target as HTMLInputElement).value;
-    this.dataListaEventos.filter = filterValue.trim().toLocaleLowerCase();
+    this.textoBusqueda = (event.target as HTMLInputElement).value.toLowerCase();
+    this.dataListaEventos.filter = this.textoBusqueda.trim();
+  }
+
+  ResaltarCoincidencia(text: string, search: string) {
+    if (!search)
+      return text;
+
+    const regex = new RegExp(`(${search})`, 'i'); //Flag 'g' para búsqueda global y resalte todas las apariciones, y Flag 'i' para ignorar mayúsculas/minúsculas
+    const resultado = text.replace(regex, '<strong>$1</strong>');
+
+    return this.sanitizer.bypassSecurityTrustHtml(resultado);
   }
 
   ModalCrearEvento(){
@@ -250,14 +263,6 @@ export class EventosComponent {
         this.screenLoading = false;
       }
     });
-  }
-
-  ResaltarCoincidencia(text: string, search: string): string {
-    if (!search) {
-      return text;
-    }
-    const regex = new RegExp(`(${search})`, 'i'); //sin la 'i' se resalta únicamente el tamaño de la letra q se ingrese (mayúscula o minúscula), pero con la 'i' se resalta cualquier tamaño de la letra
-    return text.replace(regex, '<strong>$1</strong>');
   }
 
 }

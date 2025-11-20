@@ -44,7 +44,7 @@
 
                 <ng-container matColumnDef="nombreEvento">
                     <th mat-header-cell *matHeaderCellDef>Evento</th>
-                    <td mat-cell *matCellDef="let element"class="small-text">{{element.nombreEvento}}</td>
+                    <td mat-cell *matCellDef="let element"class="small-text" [innerHTML]="ResaltarCoincidencia(element.nombreEvento, textoBusqueda)"></td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="descripcion">
@@ -54,12 +54,12 @@
 
                 <ng-container matColumnDef="fechaHora">
                     <th mat-header-cell *matHeaderCellDef>Fecha y Hora</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.fechaHora}}</td>
+                    <td mat-cell *matCellDef="let element" class="small-text" [innerHTML]="ResaltarCoincidencia(element.fechaHora, textoBusqueda)"></td>
                 </ng-container>
 
                 <ng-container matColumnDef="direccion_Ubicacion">
                     <th mat-header-cell *matHeaderCellDef>Dirección/Ubicación</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.direccion_Ubicacion}}</td>
+                    <td mat-cell *matCellDef="let element" class="small-text" [innerHTML]="ResaltarCoincidencia(element.direccion_Ubicacion, textoBusqueda)"></td>
                 </ng-container>
 
                 <ng-container class="centered" matColumnDef="capMaxPermitida">
