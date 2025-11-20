@@ -100,7 +100,7 @@ export class SessionTimeoutService {
   //Muestra el popup de advertencia de cierre de sesión al usuario
   MostrarPopupAdvertencia(countdown: number) {
     if (this.warningPopupRef) {
-      this.warningPopupRef.componentInstance.data.countdown = countdown;
+      this.warningPopupRef.componentInstance.ActualizarCuentaRegresiva(countdown);
       return;
     }
 

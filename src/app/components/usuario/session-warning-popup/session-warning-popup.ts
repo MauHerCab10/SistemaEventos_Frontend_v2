@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,8 +12,14 @@ import { MatButtonModule } from '@angular/material/button';
 export class SessionWarningPopup {
   constructor(
     private dialogRef: MatDialogRef<SessionWarningPopup>,
-    @Inject(MAT_DIALOG_DATA) public data: { countdown: number }
+    @Inject(MAT_DIALOG_DATA) public data: { countdown: number },
+    private cdr: ChangeDetectorRef
   ) {}
+
+  ActualizarCuentaRegresiva(value: number) {
+    this.data.countdown = value;
+    this.cdr.detectChanges();
+  }
 
   ContinuarSesionActiva() {
     this.dialogRef.close(true);
