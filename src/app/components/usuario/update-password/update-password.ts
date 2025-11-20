@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './update-password.html',
-  styleUrl: './update-password.css'
+  styleUrls: ['../autenticacion.css', './update-password.css']
 })
 export class UpdatePasswordComponent implements OnInit {
     constructor(

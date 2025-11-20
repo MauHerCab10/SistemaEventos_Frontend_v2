@@ -58,7 +58,7 @@ import { SessionTimeoutService } from '../../../services/session-timeout-service
 export class EventosComponent {
   public screenLoading: boolean = false;
   private router = inject(Router);
-  columnasTabla: string[] = ['nombreEvento','descripcion','fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones']; //'idEvento','idUsuarioCreacion','cuposDisponibles'
+  columnasTabla: string[] = ['nombreEvento','fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones']; //'idEvento','idUsuarioCreacion','cuposDisponibles','descripcion'
   dataOrigenDatos: Evento[] = [];
   dataListaEventos = new MatTableDataSource(this.dataOrigenDatos); //dataListaEventos = fuente de datos de nuestra tabla de Eventos
   @ViewChild(MatPaginator) paginacionTabla! : MatPaginator; //el signo (!) ayuda a q la variable nunca sea null y q siempre tenga valor

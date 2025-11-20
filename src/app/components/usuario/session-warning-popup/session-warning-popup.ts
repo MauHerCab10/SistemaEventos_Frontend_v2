@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-session-warning-popup',
   imports: [CommonModule, MatButtonModule],
   templateUrl: './session-warning-popup.html',
-  styleUrl: './session-warning-popup.css'
+  styleUrls: ['../autenticacion.css', './session-warning-popup.css']
 })
 export class SessionWarningPopup {
   constructor(

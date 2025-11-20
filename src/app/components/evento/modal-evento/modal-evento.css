@@ -12,8 +12,6 @@ form {
     align-items: flex-start;
 }
 
-
-
 mat-dialog-actions {
     display: flex; 
     justify-content: center; /* Centra los botones horizontalmente */

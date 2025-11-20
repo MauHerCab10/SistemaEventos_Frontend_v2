@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone: true,
   imports: [AsyncPipe, MatProgressSpinnerModule],
   templateUrl: './global-spinner.html',
-  styleUrl: './global-spinner.css'
+  styleUrls: ['../autenticacion.css', './global-spinner.css']
 })
 export class GlobalSpinnerComponent {
   isLoading: any;

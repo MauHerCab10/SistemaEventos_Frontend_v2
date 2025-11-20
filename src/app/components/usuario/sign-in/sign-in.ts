@@ -13,7 +13,7 @@ import { Login } from '../../../interfaces/Login';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './sign-in.html',
-  styleUrl: './sign-in.css'
+  styleUrls: ['../autenticacion.css', './sign-in.css']
 })
 export class SignInComponent {
   constructor(

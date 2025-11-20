@@ -11,7 +11,7 @@ import { Registro } from '../../../interfaces/Registro';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './sign-up.html',
-  styleUrl: './sign-up.css'
+  styleUrls: ['../autenticacion.css', './sign-up.css']
 })
 export class SignUpComponent {
   constructor(

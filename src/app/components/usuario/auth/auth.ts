@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   standalone: true,
   imports: [CommonModule, SignInComponent, SignUpComponent, ForgotPasswordComponent, UpdatePasswordComponent],
   templateUrl: './auth.html',
-  styleUrl: './auth.css'
+  styleUrls: ['../autenticacion.css', './auth.css']
 })
 export class AuthComponent {
   public isSignUpMode = false;
