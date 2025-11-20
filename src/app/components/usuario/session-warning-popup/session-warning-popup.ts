@@ -1,11 +1,12 @@
-import { Component, Inject, ChangeDetectorRef } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-session-warning-popup',
-  imports: [CommonModule, MatButtonModule],
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatDialogModule],
   templateUrl: './session-warning-popup.html',
   styleUrls: ['../autenticacion.css', './session-warning-popup.css']
 })

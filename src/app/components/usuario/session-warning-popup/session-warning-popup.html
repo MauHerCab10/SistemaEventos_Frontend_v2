@@ -1,7 +1,19 @@
-<div class="dialog-container">
-    <h2>⚠️ ¡Sesión inactiva!</h2>
-    <p>Tu sesión se cerrará automáticamente en <b>{{data.countdown}}</b> segundos.</p>
-    <div class="actions">
-        <button mat-raised-button color="primary" (click)="ContinuarSesionActiva()">Continuar</button>
-    </div>
+<div class="session-warning-dialog">
+  <!-- Material ya pone padding y fondo blanco, usamos mat-dialog-title y mat-dialog-content -->
+  <h2 mat-dialog-title class="title">
+    ⚠️ ¡Sesión inactiva!
+  </h2>
+
+  <mat-dialog-content class="content">
+    <p>
+      Tu sesión se cerrará automáticamente en
+      <strong>{{ data.countdown }}</strong> segundos.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" (click)="ContinuarSesionActiva()">
+      Continuar en la sesión
+    </button>
+  </mat-dialog-actions>
 </div>

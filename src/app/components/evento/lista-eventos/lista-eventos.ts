@@ -136,7 +136,7 @@ export class EventosComponent {
 
   ModalCrearEvento(){
     this.dialog.open(ModalEvento, {
-      disableClose:true
+      disableClose: true,
     }).afterClosed().subscribe(resultado => {
       if(resultado === "true")
         this.ObtenerEventos();
