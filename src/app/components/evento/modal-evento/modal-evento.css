@@ -1,3 +1,12 @@
+::ng-deep .mat-mdc-dialog-surface {
+  border-radius: 15px !important;
+}
+
+mat-dialog-actions {
+    display: flex; 
+    justify-content: center;
+}
+
 mat-form-field {
     width: 100%;
     margin: 10px 10px;
@@ -10,9 +19,4 @@ form {
 .campos-formulario {
     display: flex;
     align-items: flex-start;
-}
-
-mat-dialog-actions {
-    display: flex; 
-    justify-content: center; /* Centra los botones horizontalmente */
 }

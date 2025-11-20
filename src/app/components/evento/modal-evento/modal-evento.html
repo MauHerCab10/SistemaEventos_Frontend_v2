@@ -30,8 +30,8 @@
                     <input matInput autocomplete="off" formControlName="fechaEvento" [matDatepicker]="datepickerFechaEvento" [readonly]="true" [min]="fechaMinima">
                     <mat-datepicker-toggle matSuffix [for]="datepickerFechaEvento"></mat-datepicker-toggle>
                     <mat-datepicker #datepickerFechaEvento></mat-datepicker>
-                </mat-form-field>                
-                
+                </mat-form-field>
+
                  <mat-form-field appearance="fill">
                     <mat-label>Hora del evento</mat-label>
                     <input matInput [value]="horaActual" type="time" formControlName="horaEvento">

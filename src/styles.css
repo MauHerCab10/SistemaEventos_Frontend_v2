@@ -52,3 +52,40 @@ body {
   to { transform: rotate(360deg); }
 }
 /* FIN Screen Loader */
+
+
+/* INICIO DateTimePicker */
+.mat-datepicker-content {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+.mat-calendar-body-cell:hover:not(.mat-calendar-body-disabled) {
+  background-color: #cdeaff !important;
+  border-radius: 50% !important;
+}
+
+.mat-calendar-body-cell-content {
+  border-radius: 50% !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.mat-calendar-body-selected {
+  background-color: #2196f3 !important;
+  color: white !important;
+  border-radius: 50% !important;
+}
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border: 2px solid #2196f3 !important;
+  border-radius: 50% !important;
+}
+
+.mat-calendar-body-label {
+  color: #2196f3 !important;
+}
+
+.mat-datepicker-toggle .mat-mdc-button-persistent-ripple {
+  display: none !important;
+}
+/* INICIO DateTimePicker */
