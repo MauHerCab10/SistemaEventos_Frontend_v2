@@ -58,6 +58,7 @@ export class ModalEvento {
   fechaMinima: Date;
   esEdicion: boolean = false;
   camposSoloLectura: boolean = false;
+  screenLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -114,6 +115,7 @@ export class ModalEvento {
   }
 
   GuardarEditar_Evento() {
+    this.screenLoading = true;
     let formatFechaEvento = moment(this.formEvento.value.fechaEvento).format('DD/MM/YYYY');
     let idUsuario = sessionStorage.getItem('idUsuario') || '';
 
@@ -138,7 +140,13 @@ export class ModalEvento {
             this._servicioUtilidad.MostarAlerta("Hubo un error al momento de registrar el evento.", "Error");
           }
         },
-        error: (e) => { }
+        error: (ex) => {
+          this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+          console.log(ex.message);
+        },
+        complete: () => {
+          this.screenLoading = false;
+        }
       })
     } else {
       this._servicioEvento.EditarEvento(evento).subscribe({
@@ -150,7 +158,13 @@ export class ModalEvento {
             this._servicioUtilidad.MostarAlerta("Hubo un error al momento de actualizar el evento.", "Error");
           }
         },
-        error: (e) => { }
+        error: (ex) => {
+          this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+          console.log(ex.message);
+        },
+        complete: () => {
+          this.screenLoading = false;
+        }
       })
     }
   }

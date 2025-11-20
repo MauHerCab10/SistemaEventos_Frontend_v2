@@ -56,8 +56,8 @@ import { SessionTimeoutService } from '../../../services/session-timeout-service
   styleUrl: './lista-eventos.css',
 })
 export class EventosComponent {
-  public screenLoading: boolean = false;
-  private router = inject(Router);
+  screenLoading: boolean = false;
+  router = inject(Router);
   columnasTabla: string[] = ['nombreEvento','fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones']; //'idEvento','idUsuarioCreacion','cuposDisponibles','descripcion'
   dataOrigenDatos: Evento[] = [];
   dataListaEventos = new MatTableDataSource(this.dataOrigenDatos); //dataListaEventos = fuente de datos de nuestra tabla de Eventos
@@ -103,8 +103,11 @@ export class EventosComponent {
         }
       },
       error: (ex) => {
-        console.log(ex.message);
         this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+        console.log(ex.message);
+        
+        if(!ex.error.isSuccess && ex.error.valor == null && ex.error.mensaje === "El AccessToken y/o el RefreshToken suministrados no existen, ó el RefreshToken no se encuentra activo para ese usuario.")
+          this.router.navigate(['login']);
       },
       complete: () => {
         this.screenLoading = false;
@@ -240,8 +243,8 @@ export class EventosComponent {
       },
       error:(ex) => {
         this.router.navigate(['login']);
-        console.log(ex.message);
         this._servicioUtilidad.MostarAlerta(`${ex?.error?.mensaje} ${ex?.message}`, "ERROR 😢");
+        console.log(ex.message);
       },
       complete: () => {
         this.screenLoading = false;

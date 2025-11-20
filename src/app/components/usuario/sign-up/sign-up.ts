@@ -60,8 +60,8 @@ export class SignUpComponent {
       },
       error:(respuesta) => {
         this.screenLoadingChange.emit(false);
-        console.log(respuesta.message);
         this._servicioUtilidad.MostarAlerta(`${respuesta?.error?.mensaje} ${respuesta?.message}`, "ERROR 😢");
+        console.log(respuesta.message);
       },
       complete: () => {
         this.screenLoadingChange.emit(false);

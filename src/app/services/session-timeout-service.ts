@@ -18,9 +18,9 @@ export class SessionTimeoutService {
   private idle = inject(Idle);
   private router = inject(Router);
   private dialog = inject(MatDialog);
-  public screenLoading: boolean = false;
   private warningPopupRef: any = null;
   private isConfigured = false;
+  public screenLoading: boolean = false;
   
   constructor(
     private _servicioUtilidad: UtilityService,
@@ -46,14 +46,14 @@ export class SessionTimeoutService {
     });
 
     this.idle.onTimeoutWarning.subscribe((countdown) => {
-      // console.log(`La sesión se cerrará en ${countdown} segundos. Por favor, interactúe con la aplicación para continuar activo.`);
       this.MostrarPopupAdvertencia(countdown);
+      // console.log(`La sesión se cerrará en ${countdown} segundos. Por favor, interactúe con la aplicación para continuar activo.`);
     });
 
     this.idle.onTimeout.subscribe(() => {
-      // console.log('¡Tiempo agotado! Iniciando cierre de sesión automático...');
       this.CerrarPopupAdvertencia();
       this.LogoutAutomatico();
+      // console.log('¡Tiempo agotado! Iniciando cierre de sesión automático...');
     });
 
     this.router.events
@@ -88,8 +88,8 @@ export class SessionTimeoutService {
       },
       error:(respuesta) => {
         this._servicioLoading.Hide();
-        console.log(respuesta.message);
         this._servicioUtilidad.MostarAlerta(`${respuesta?.error?.mensaje} ${respuesta?.message}`, "ERROR 😢");
+        console.log(respuesta.message);
       },
       complete: () => {
         this._servicioLoading.Hide();
@@ -129,15 +129,15 @@ export class SessionTimeoutService {
   //Inicializa el temporizador de sesión
   ResetSessionTimer() {
     this.idle.watch();
-    // console.log('Monitoreo de inactividad iniciado...');
     this.CerrarPopupAdvertencia();
+    // console.log('Monitoreo de inactividad iniciado...');
   }
 
   //Finalización del temporizador de sesión
   FinishSessionTimer() {
     this.idle.stop();
-    // console.log('¡Sesión cerrada exitosamente!');
     this.CerrarPopupAdvertencia();
+    // console.log('¡Sesión cerrada exitosamente!');
   }
 
   //Pausa el temporizador de sesión
