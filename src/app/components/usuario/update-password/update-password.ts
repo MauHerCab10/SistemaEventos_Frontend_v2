@@ -34,7 +34,7 @@ export class UpdatePasswordComponent implements OnInit {
       confirmacionContrasena: ["", Validators.required]
     });
 
-    //Permite al usuario actualizar su contraseña antigüa
+    //Permite al usuario actualizar/restablecer su contraseña antigüa
     ActualizarContrasena() {
       this.formUpdatePassword.markAllAsTouched();
 
@@ -51,7 +51,7 @@ export class UpdatePasswordComponent implements OnInit {
         confirmacionContrasena: this.formUpdatePassword.value.confirmacionContrasena,
       }
 
-      this.serviceAcceso.ActualizarContrasenaAntigua(restablecimiento).subscribe({
+      this.serviceAcceso.RestablecerContrasena(restablecimiento).subscribe({
         next: (respuesta) => {
           if (respuesta.isSuccess) {
             this.router.navigate(['login']);
@@ -71,10 +71,12 @@ export class UpdatePasswordComponent implements OnInit {
       });
     }
 
+    //Regresar al módulo de inicio de sesión
     onBackToSignIn() {
       this.router.navigate(['login']);
     }
 
+    //Obtiene el valor del parámetro 'guidAcceso' de la URL al inicializar el componente
     ngOnInit(): void {
       this.route.queryParams.subscribe(params => {
         this.guidAcceso = params['guidAcceso'];

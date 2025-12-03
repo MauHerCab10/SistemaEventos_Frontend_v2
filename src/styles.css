@@ -3,10 +3,10 @@
 /* Estilos globales de Angular Material */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-/* INICIO Reset básico */
+/* INICIO Etiquetas base */
 * {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
@@ -16,10 +16,10 @@ html, body {
 }
 
 body {
-  margin: 0;
+  margin: 0px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-/* FIN Reset básico */
+/* FIN Etiquetas base */
 
 
 /* INICIO Screen Loader */

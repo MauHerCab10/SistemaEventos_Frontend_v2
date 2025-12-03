@@ -56,3 +56,15 @@ mat-card {
 .centered th, .centered td {
     text-align: center; 
 }
+
+.dashboard-card-content {
+  padding: 20px;
+}
+
+.acciones-header {
+  width: 130px;
+}
+
+.no-data-padding {
+  padding: 20px;
+}

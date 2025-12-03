@@ -20,7 +20,7 @@ export const AuthenticationGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  // //Valida el AccessToken con el Backend
+  // //Valida la autenticidad del AccessToken (el Backend realiza la validación del AccessToken con cada petición q recibe)
   // if (accessToken) {
   //   return _servicioAcceso.ValidarToken(accessToken).pipe(
   //     map(respuesta => {

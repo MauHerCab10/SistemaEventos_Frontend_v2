@@ -78,16 +78,19 @@ export class EventosComponent {
     private cdr: ChangeDetectorRef
   ){}
 
+  //Inicializa el componente de lista de eventos encargado de visualizar la lista de eventos disponibles
   ngOnInit(): void {
     this.ObtenerEventos();
     this._sessionService.ConfigurarSessionTimer();
     this._sessionService.ResetSessionTimer();
   }
 
+  //Luego de inicializar todo el componente, se inicializa la paginación de la tabla de eventos
   ngAfterViewInit(): void {
     this.dataListaEventos.paginator = this.paginacionTabla;
   }
 
+  //Retorna y reestructura la lista de todos los eventos disponibles q hay en el sistema
   ObtenerEventos(){
     this.screenLoading = true;
     this._servicioEvento.ConsultarEventosDisponibles(this.idUsuario).subscribe({
@@ -119,11 +122,13 @@ export class EventosComponent {
     });
   }
 
+  //Filtra los registros de la tabla de eventos según el texto q se vaya ingresando en el campo de búsqueda
   AplicarFiltroBusquedaTabla(event: Event){
     this.textoBusqueda = (event.target as HTMLInputElement).value.toLowerCase();
     this.dataListaEventos.filter = this.textoBusqueda.trim();
   }
 
+  //Coloca en negrita el texto q coincide con la búsqueda realizada por el usuario
   ResaltarCoincidencia(text: string, search: string) {
     if (!search)
       return text;
@@ -134,6 +139,7 @@ export class EventosComponent {
     return this.sanitizer.bypassSecurityTrustHtml(resultado);
   }
 
+  //Despliega un modal para crear un nuevo evento
   ModalCrearEvento(){
     this.dialog.open(ModalEvento, {
       disableClose: true,
@@ -143,6 +149,7 @@ export class EventosComponent {
     });
   }
 
+  //Despliega un modal para editar el evento seleccionado
   ModalEditarEvento(evento:Evento){
     this.dialog.open(ModalEvento, {
       disableClose: true,
@@ -153,6 +160,7 @@ export class EventosComponent {
     });
   }
 
+  //Despliega un modal para confirmar la eliminación del evento seleccionado
   ModalEliminarEvento(evento:Evento){
     Swal.fire({
       title: "¿Desea eliminar este evento?",
@@ -191,6 +199,7 @@ export class EventosComponent {
     });
   }
 
+  //Despliega un modal para confirmar la inscripción al evento seleccionado
   ModalInscripcionAEvento(evento:Evento){
     Swal.fire({
       title: "¿Desea inscribirse a este evento?",
@@ -229,6 +238,7 @@ export class EventosComponent {
     });
   }
 
+  //Despliega un modal para confirmar la dimisión del evento seleccionado
   ModalDimisionDeEvento(evento:Evento){
     Swal.fire({
       title: "¿Desea darse de baja de este evento?",

@@ -92,6 +92,7 @@ export class ModalEvento {
     this.fechaMinima = new Date();
   }
 
+  //Inicializa el componente del modal encargado de crear o editar un evento
   ngOnInit(): void {
     if (this.datosEvento != null) {
       this.formEvento.patchValue({
@@ -106,6 +107,7 @@ export class ModalEvento {
     }
   }
 
+  //Según el modo del formulario (creación o edición de evento), configura los campos del formulario de solo lectura o no 
   configurarModo(): void {
     if (this.esEdicion) {
       this.camposSoloLectura = true;
@@ -114,6 +116,7 @@ export class ModalEvento {
     }
   }
 
+  //Crea o Actualiza un evento, según el modo del formulario (de Creación o de Edición)
   GuardarEditar_Evento() {
     this.screenLoading = true;
     let formatFechaEvento = moment(this.formEvento.value.fechaEvento).format('DD/MM/YYYY');
@@ -131,6 +134,7 @@ export class ModalEvento {
     }
 
     if (this.datosEvento == null) {
+      //Creación de un evento nuevo
       this._servicioEvento.CrearEvento(evento).subscribe({
         next: (response) => {
           if (response.isSuccess) {
@@ -149,6 +153,7 @@ export class ModalEvento {
         }
       })
     } else {
+      //Actualización de un evento existente
       this._servicioEvento.EditarEvento(evento).subscribe({
         next: (response) => {
           if (response.isSuccess) {

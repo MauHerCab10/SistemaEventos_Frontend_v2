@@ -63,6 +63,7 @@ export class ForgotPasswordComponent {
     });
   }
 
+  //Regresar al módulo de inicio de sesión
   onBackToSignIn() {
     this.backToSignIn.emit();
   }

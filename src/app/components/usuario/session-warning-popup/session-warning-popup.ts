@@ -17,11 +17,13 @@ export class SessionWarningPopup {
     private cdr: ChangeDetectorRef
   ) {}
 
+  //Actualiza el valor de la cuenta regresiva en el popup de advertencia de sesión
   ActualizarCuentaRegresiva(value: number) {
     this.data.countdown = value;
     this.cdr.detectChanges();
   }
 
+  //Permite al usuario continuar con su sesión activa
   ContinuarSesionActiva() {
     this.dialogRef.close(true);
   }

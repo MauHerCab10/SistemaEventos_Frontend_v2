@@ -16,40 +16,35 @@ export class AccessService {
 
   constructor() { }
 
+  //Registra un nuevo usuario en el sistema
   RegistrarUsuario(usuario:Registro): Observable<RespuestaUsuario>
   {
     var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}RegistrarUsuario`, usuario);
     return respuesta;
   }
 
+  //Autentica y autoriza el acceso del usuario en la aplicación
   LoginUsuario(usuario:Login): Observable<RespuestaUsuario>
   {
     var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}AutenticarUsuario`, usuario); //..., usuario, { withCredentials: true });
     return respuesta;
   }
 
+  //Resetea la contraseña del usuario y envía un correo de restablecimiento de contraseña
   OlvidoSuContrasena(email:string): Observable<RespuestaUsuario>
   {
     var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}OlvidoSuContrasena`, { email });
     return respuesta;
   }
 
-  ActualizarContrasenaAntigua(nuevaContrasena:RestablecimientoContrasena): Observable<RespuestaUsuario>
+  //Actualiza la contraseña antigua de la cual no se acuerda el usuario
+  RestablecerContrasena(nuevaContrasena:RestablecimientoContrasena): Observable<RespuestaUsuario>
   {
-    var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}ActualizarContrasenaAntigua`, nuevaContrasena);
+    var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}RestablecerContrasena`, nuevaContrasena);
     return respuesta;
   }
 
-  ValidarToken(accessToken:string): Observable<RespuestaUsuario>
-  {
-    var respuesta = this.http.get<RespuestaUsuario>(`${this.baseUrl}ValidarToken`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }, withCredentials: true
-    });
-    return respuesta;
-  }
-
+  //Genera tanto un AccessToken como un RefreshToken
   ObtenerRefreshToken(accessToken:string): Observable<RespuestaUsuario>
   {
     var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}ObtenerRefreshToken`, {
@@ -60,6 +55,7 @@ export class AccessService {
     return respuesta;
   }
 
+  //Cierra la sesión del usuario en la aplicación
   CerrarSesion(accessToken:string): Observable<RespuestaUsuario>
   {
     var respuesta = this.http.post<RespuestaUsuario>(`${this.baseUrl}CerrarSesion`, {
