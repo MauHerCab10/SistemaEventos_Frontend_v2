@@ -82,23 +82,31 @@
                     <th mat-header-cell *matHeaderCellDef class="acciones-header"></th>
 
                     <td mat-cell *matCellDef="let element">
-                        <ng-container *ngIf="element.idUsuarioCreacion == idUsuario">
-                            <button mat-icon-button color="primary" (click)="ModalEditarEvento(element)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button mat-icon-button color="warn" (click)="ModalEliminarEvento(element)" [disabled]="element.cantidadAsistentes > 0">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </ng-container>
+                        @if (element.idUsuarioCreacion == idUsuario) {
+                            <ng-container>
+                                <button mat-icon-button color="primary" (click)="ModalEditarEvento(element)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="ModalEliminarEvento(element)" [disabled]="element.cantidadAsistentes > 0">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </ng-container>
+                        }
 
-                        <ng-container *ngIf="element.idUsuarioCreacion != idUsuario">
-                            <button mat-icon-button class="custom-color-inscripcion" (click)="ModalInscripcionAEvento(element)" *ngIf="element.cuposDisponibles > 0 && !element.esUsuarioInscrito && suscripcionesUsuarioActual < 3">
-                                <mat-icon>person_add_alt_1</mat-icon>
-                            </button>
-                            <button mat-icon-button class="custom-color-dimision" (click)="ModalDimisionDeEvento(element)" *ngIf="element.esUsuarioInscrito">
-                                <mat-icon>person_add_disabled</mat-icon>
-                            </button>
-                        </ng-container>
+                        @if (element.idUsuarioCreacion != idUsuario) {
+                            <ng-container>
+                                @if (element.cuposDisponibles > 0 && !element.esUsuarioInscrito && suscripcionesUsuarioActual < 3) {
+                                    <button mat-icon-button class="custom-color-inscripcion" (click)="ModalInscripcionAEvento(element)">
+                                        <mat-icon>person_add_alt_1</mat-icon>
+                                    </button>
+                                }
+                                @if (element.esUsuarioInscrito) {
+                                    <button mat-icon-button class="custom-color-dimision" (click)="ModalDimisionDeEvento(element)">
+                                        <mat-icon>person_add_disabled</mat-icon>
+                                    </button>
+                                }
+                            </ng-container>
+                        }
                     </td>
                 </ng-container>
 
@@ -111,12 +119,13 @@
                 <tr class="mat-row" *matNoDataRow="">
                     <td class="mat-cell" colspan="4">
                         <div class="no-data-padding">
-                            <ng-container *ngIf="input.value; else noData">
-                                No existe ningún registro en la tabla con el filtro de búsqueda: <b>{{ input.value }}</b>
+                            <ng-container>
+                                @if (input.value) {
+                                    No existe ningún registro en la tabla con el filtro de búsqueda: <b>{{ input.value }}</b>
+                                } @else {
+                                    No existe ningún registro en la BD.
+                                }
                             </ng-container>
-                            <ng-template #noData>
-                                No existe ningún registro en la BD.
-                            </ng-template>
                         </div>
                     </td>
                 </tr>
