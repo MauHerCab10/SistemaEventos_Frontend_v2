@@ -62,17 +62,17 @@
                     <td mat-cell *matCellDef="let element" class="small-text" [innerHTML]="ResaltarCoincidencia(element.direccion_Ubicacion, textoBusqueda)"></td>
                 </ng-container>
 
-                <ng-container class="centered" matColumnDef="capMaxPermitida">
+                <ng-container matColumnDef="capMaxPermitida">
                     <th mat-header-cell *matHeaderCellDef>Cap. Max. Permitida</th>
                     <td mat-cell *matCellDef="let element" class="small-text">{{element.capMaxPermitida | number:'1.0-0'}}</td>
                 </ng-container>
 
-                <ng-container class="centered" matColumnDef="cantidadAsistentes">
+                <ng-container matColumnDef="cantidadAsistentes">
                     <th mat-header-cell *matHeaderCellDef>No. Asistentes</th>
                     <td mat-cell *matCellDef="let element" class="small-text">{{element.cantidadAsistentes}}</td>
                 </ng-container>
 
-                <ng-container class="centered" matColumnDef="usuarioInscrito">
+                <ng-container matColumnDef="usuarioInscrito">
                     <th mat-header-cell *matHeaderCellDef>¿Estás inscrito?</th>
                     <td mat-cell *matCellDef="let element" [ngClass]="{'estado-activo': element.esUsuarioInscrito == true, 'estado-inactivo': element.esUsuarioInscrito == false}">
                         {{element.esUsuarioInscrito == true ? "Sí" : "No"}}

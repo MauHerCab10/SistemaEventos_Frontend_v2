@@ -53,18 +53,20 @@ mat-card {
     font-weight: bold;
 }
 
-.centered th, .centered td {
-    text-align: center; 
-}
-
 .dashboard-card-content {
-  padding: 20px;
+    padding: 20px;
 }
 
 .acciones-header {
-  width: 130px;
+    width: 130px;
 }
 
 .no-data-padding {
-  padding: 20px;
+    padding: 20px;
+}
+
+.mat-column-capMaxPermitida,
+.mat-column-cantidadAsistentes,
+.mat-column-usuarioInscrito {
+    text-align: center;
 }
