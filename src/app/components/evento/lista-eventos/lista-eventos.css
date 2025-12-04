@@ -7,23 +7,12 @@ table {
 }
 
 .headers-style {
-    font-size: medium;
+    font-size: 28px;
     font-weight: bold;
 }
 
-.rows-color-hover:hover {
-    background-color: #cef8ff;
-}
-
-.cerrar-sesion {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 30px 50px 0px 50px;
-}
-
 mat-card-title {
-    margin: 20px 50px 0px 50px;
+    margin: 20px 50px 0px 30px;
     font-size: xxx-large;
 }
 
@@ -31,8 +20,29 @@ mat-card {
     margin: 20px 50px 40px 50px;
 }
 
-.small-text {
-    font-size: 12px;
+.nombre-usuario {
+    display: flex;
+    justify-content: right;
+    padding: 50px 50px 10px 0px;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.titulo-y-cerrarsesion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 50px 0px 50px;
+}
+
+.titulo {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.texto-cabecera-evento {
+    font-size: 21px;
 }
 
 .custom-color-inscripcion {
@@ -40,7 +50,7 @@ mat-card {
 }
 
 .custom-color-dimision {
-    color: #d5cb0f;
+    color: rgb(227, 217, 18);
 }
 
 .estado-activo {
@@ -57,16 +67,69 @@ mat-card {
     padding: 20px;
 }
 
-.acciones-header {
-    width: 130px;
-}
-
 .no-data-padding {
     padding: 20px;
 }
 
-.mat-column-capMaxPermitida,
-.mat-column-cantidadAsistentes,
-.mat-column-usuarioInscrito {
-    text-align: center;
+tr.detail-row {
+    height: 0;
+}
+
+tr.detail-row {
+    background-color: rgb(237, 255, 235);
+}
+
+tr.element-row {
+    cursor: pointer;
+}
+
+tr.element-row:hover {
+    background-color: #ceffd0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+    background: #cef8ff;
+}
+
+.expanded-row {
+    background-color: #ceffd0 !important;
+}
+
+.element-detail-wrapper {
+    display: grid;
+    max-width: 96%;
+    grid-template-rows: 0fr;
+    grid-template-columns: 100%;
+    transition: grid-template-rows 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.element-detail-wrapper-expanded {
+    grid-template-rows: 1fr;
+}
+
+.element-detail {
+    display: flex;
+    min-height: 0;
+}
+
+.element-diagram {
+    padding: 20px 15px 15px 15px;
+}
+
+.infoRegistro {
+    margin-bottom: 7px;
+    font-size: 15px;
+}
+
+.toggle-button {
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-button-expanded {
+    transform: rotate(180deg);
+}
+
+.mat-column-expand {
+    text-align: right;
+    padding-right: 1%;
 }

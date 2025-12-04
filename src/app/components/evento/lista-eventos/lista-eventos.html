@@ -4,17 +4,20 @@
   </div>
 }
 
-<div class="cerrar-sesion">
+<span class="nombre-usuario">Hola, {{ nombreUsuario }}</span>
+
+<div class="titulo-y-cerrarsesion">
+    <mat-card-title>
+        <span class="titulo">Eventos Disponibles </span>
+        <button mat-raised-button color="primary" (click)="ModalCrearEvento()">
+            <mat-icon>add</mat-icon> Crear Evento
+        </button>
+    </mat-card-title>
+
     <button mat-raised-button color="warn" (click)="CerrarSesion()">
         <mat-icon mat-list-icon>logout</mat-icon>Cerrar Sesión
     </button>
 </div>
-
-<mat-card-title>Eventos Disponibles
-    <button mat-raised-button color="primary" (click)="ModalCrearEvento()">
-        <mat-icon mat-list-icon>add</mat-icon>Crear Evento
-    </button>
-</mat-card-title>
 
 <mat-card>
     <mat-card-content class="dashboard-card-content">
@@ -25,97 +28,97 @@
         </mat-form-field>
 
         <div class="mat-elevation-z3">
-            <table mat-table [dataSource]="dataListaEventos">
-
-                <!-- <ng-container matColumnDef="idEvento">
-                    <th mat-header-cell *matHeaderCellDef>IdEvento</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.idEvento}}</td>
-                </ng-container> -->
-
-                <!-- <ng-container matColumnDef="idUsuarioCreacion">
-                    <th mat-header-cell *matHeaderCellDef>IdUsuarioCreacion</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.idUsuarioCreacion}}</td>
-                </ng-container> -->
-
-                <!-- <ng-container matColumnDef="cuposDisponibles">
-                    <th mat-header-cell *matHeaderCellDef>Cupos disponibles</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.cuposDisponibles}}</td>
-                </ng-container> -->
+            <table mat-table [dataSource]="dataListaEventos" multiTemplateDataRows class="mat-elevation-z8">
+                <!-- Recorre la lista de Headers y va poblando la cabecera de cada columna -->
+                <!-- @for (column of columnasTabla; track column) {
+                    <ng-container matColumnDef="{{column}}">
+                        <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+                        <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+                    </ng-container>
+                } -->
 
                 <ng-container matColumnDef="nombreEvento">
-                    <th mat-header-cell *matHeaderCellDef>Evento</th>
-                    <td mat-cell *matCellDef="let element"class="small-text" [innerHTML]="ResaltarCoincidencia(element.nombreEvento, textoBusqueda)"></td>
+                    <th mat-header-cell *matHeaderCellDef class="headers-style">Lista de EVENTOS</th>
+                    <td mat-cell *matCellDef="let element" class="texto-cabecera-evento" [innerHTML]="ResaltarCoincidencia(element.nombreEvento, textoBusqueda)"></td>
                 </ng-container>
-
-                <!-- <ng-container matColumnDef="descripcion">
-                    <th mat-header-cell *matHeaderCellDef>Descripción</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.descripcion}}</td>
-                </ng-container> -->
-
-                <ng-container matColumnDef="fechaHora">
-                    <th mat-header-cell *matHeaderCellDef>Fecha y Hora</th>
-                    <td mat-cell *matCellDef="let element" class="small-text" [innerHTML]="ResaltarCoincidencia(element.fechaHora, textoBusqueda)"></td>
-                </ng-container>
-
-                <ng-container matColumnDef="direccion_Ubicacion">
-                    <th mat-header-cell *matHeaderCellDef>Dirección/Ubicación</th>
-                    <td mat-cell *matCellDef="let element" class="small-text" [innerHTML]="ResaltarCoincidencia(element.direccion_Ubicacion, textoBusqueda)"></td>
-                </ng-container>
-
-                <ng-container matColumnDef="capMaxPermitida">
-                    <th mat-header-cell *matHeaderCellDef>Cap. Max. Permitida</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.capMaxPermitida | number:'1.0-0'}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="cantidadAsistentes">
-                    <th mat-header-cell *matHeaderCellDef>No. Asistentes</th>
-                    <td mat-cell *matCellDef="let element" class="small-text">{{element.cantidadAsistentes}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="usuarioInscrito">
-                    <th mat-header-cell *matHeaderCellDef>¿Estás inscrito?</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="{'estado-activo': element.esUsuarioInscrito == true, 'estado-inactivo': element.esUsuarioInscrito == false}">
-                        {{element.esUsuarioInscrito == true ? "Sí" : "No"}}
-                </ng-container>
-
-                <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef class="acciones-header"></th>
-
+                
+                <ng-container matColumnDef="expand">
+                    <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
                     <td mat-cell *matCellDef="let element">
-                        @if (element.idUsuarioCreacion == idUsuario) {
-                            <ng-container>
-                                <button mat-icon-button color="primary" (click)="ModalEditarEvento(element)">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                                <button mat-icon-button color="warn" (click)="ModalEliminarEvento(element)" [disabled]="element.cantidadAsistentes > 0">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </ng-container>
-                        }
-
-                        @if (element.idUsuarioCreacion != idUsuario) {
-                            <ng-container>
-                                @if (element.cuposDisponibles > 0 && !element.esUsuarioInscrito && suscripcionesUsuarioActual < 3) {
-                                    <button mat-icon-button class="custom-color-inscripcion" (click)="ModalInscripcionAEvento(element)">
-                                        <mat-icon>person_add_alt_1</mat-icon>
-                                    </button>
-                                }
-                                @if (element.esUsuarioInscrito) {
-                                    <button mat-icon-button class="custom-color-dimision" (click)="ModalDimisionDeEvento(element)">
-                                        <mat-icon>person_add_disabled</mat-icon>
-                                    </button>
-                                }
-                            </ng-container>
-                        }
+                        <button
+                            matIconButton
+                            aria-label="expand row"
+                            (click)="AlternarVisualizacionDetallesFila(element); $event.stopPropagation()"
+                            class="toggle-button"
+                            [class.toggle-button-expanded]="FilaExpandida(element)">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 
-                <!-- HEADERS -->
-                <tr mat-header-row class="headers-style" *matHeaderRowDef="columnasTabla"></tr>
+                <!-- Expanded Content Column -->
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnasTablaConExpansion.length">
+                        <div class="element-detail-wrapper"
+                            [class.element-detail-wrapper-expanded]="FilaExpandida(element)">
+                            <div class="element-detail">
+                                <div class="element-diagram">
+                                    <div class="infoRegistro"><b>Fecha y Hora:</b> {{element.fechaHora}} </div>
+                                    <div class="infoRegistro"><b>Dirección/Ubicación:</b> {{element.direccion_Ubicacion}} </div>
+                                    <div class="infoRegistro"><b>Descripción:</b> {{element.descripcion}} </div>
+                                    <div class="infoRegistro"><b>Cap. Max. Permitida:</b> {{ element.capMaxPermitida | number:'1.0-0' }} </div>
+                                    <div class="infoRegistro"><b>No. Asistentes:</b> {{element.cantidadAsistentes}} </div>
+                                    <div class="infoRegistro">
+                                        <b>¿Estás inscrito?</b>
+                                        <span [ngClass]="{ 
+                                            'estado-activo': element.esUsuarioInscrito == true, 
+                                            'estado-inactivo': element.esUsuarioInscrito == false 
+                                        }">
+                                        {{ element.esUsuarioInscrito ? 'Sí' : 'No' }}</span>
+                                    </div>
+                                    
+                                    @if (element.idUsuarioCreacion == idUsuario) {
+                                        <ng-container>
+                                            <button mat-icon-button color="primary" matTooltip="EDITAR" (click)="ModalEditarEvento(element)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="warn" matTooltip="ELIMINAR" (click)="ModalEliminarEvento(element)" [disabled]="element.cantidadAsistentes > 0">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </ng-container>
+                                    }
 
-                <!-- ROWS -->
-                <tr mat-row class="rows-color-hover" *matRowDef="let row; columns: columnasTabla;"></tr>
+                                    @if (element.idUsuarioCreacion != idUsuario) {
+                                        <ng-container>
+                                            @if (element.cuposDisponibles > 0 && !element.esUsuarioInscrito && suscripcionesUsuarioActual < 3) {
+                                                <button mat-icon-button class="custom-color-inscripcion" matTooltip="¡Inscribirse al evento!" (click)="ModalInscripcionAEvento(element)">
+                                                    <mat-icon>person_add_alt_1</mat-icon>
+                                                </button>
+                                            }
+                                            @if (element.esUsuarioInscrito) {
+                                                <button mat-icon-button class="custom-color-dimision" matTooltip="¡Retirarse del evento!" (click)="ModalDimisionDeEvento(element)">
+                                                    <mat-icon>person_add_disabled</mat-icon>
+                                                </button>
+                                            }
+                                        </ng-container>
+                                    }
+                                </div>
+                                <div>
+                                    {{element.description}}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
 
+                <tr mat-header-row *matHeaderRowDef="columnasTablaConExpansion"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnasTablaConExpansion;"
+                    class="element-row"
+                    [class.expanded-row]="FilaExpandida(element)"
+                    (click)="AlternarVisualizacionDetallesFila(element)">
+                </tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+            
                 <tr class="mat-row" *matNoDataRow="">
                     <td class="mat-cell" colspan="4">
                         <div class="no-data-padding">
@@ -129,7 +132,6 @@
                         </div>
                     </td>
                 </tr>
-
             </table>
 
             <mat-divider></mat-divider>

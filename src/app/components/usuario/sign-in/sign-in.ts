@@ -57,6 +57,7 @@ export class SignInComponent {
         if (respuesta.isSuccess) {
           
           sessionStorage.setItem("idUsuario", respuesta.idUsuario.toString());
+          sessionStorage.setItem("nombreUsuario", respuesta.nombreUsuario.toString());
           sessionStorage.setItem("accessToken", respuesta.accessToken);
           
           this.router.navigate(['inicio']);

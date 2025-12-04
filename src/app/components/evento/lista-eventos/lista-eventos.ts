@@ -59,13 +59,16 @@ import { SessionTimeoutService } from '../../../services/session-timeout-service
 export class EventosComponent {
   screenLoading: boolean = false;
   router = inject(Router);
-  columnasTabla: string[] = ['nombreEvento','fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones']; //'idEvento','idUsuarioCreacion','cuposDisponibles','descripcion'
+  columnasTablaSinExpansion: string[] = ['nombreEvento']; //'fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones' //'idEvento','idUsuarioCreacion','cuposDisponibles','descripcion'
+  columnasTablaConExpansion = [...this.columnasTablaSinExpansion, 'expand'];
   dataOrigenDatos: Evento[] = [];
   dataListaEventos = new MatTableDataSource(this.dataOrigenDatos); //dataListaEventos = fuente de datos de nuestra tabla de Eventos
   @ViewChild(MatPaginator) paginacionTabla! : MatPaginator; //el signo (!) ayuda a q la variable nunca sea null y q siempre tenga valor
   idUsuario = sessionStorage.getItem("idUsuario") || '';
+  nombreUsuario = sessionStorage.getItem("nombreUsuario") || '';
   suscripcionesUsuarioActual: number = 0;
   textoBusqueda: string = '';
+  expandedElement: Evento | undefined;
   
   constructor(
     private sanitizer: DomSanitizer,
@@ -80,6 +83,12 @@ export class EventosComponent {
 
   //Inicializa el componente de lista de eventos encargado de visualizar la lista de eventos disponibles
   ngOnInit(): void {
+    //'AplicarFiltroBusquedaTabla()' solo va a filtrar por 'nombreEvento', por ningún otro campo más
+    this.dataListaEventos.filterPredicate = (data: Evento, filter: string) => {
+      let filtro = data.nombreEvento.toLowerCase().includes(filter);
+      return filtro;
+    };
+
     this.ObtenerEventos();
     this._sessionService.ConfigurarSessionTimer();
     this._sessionService.ResetSessionTimer();
@@ -88,6 +97,16 @@ export class EventosComponent {
   //Luego de inicializar todo el componente, se inicializa la paginación de la tabla de eventos
   ngAfterViewInit(): void {
     this.dataListaEventos.paginator = this.paginacionTabla;
+  }
+
+  //Comprueba si una fila seleccionada está expandida
+  FilaExpandida(element: Evento) {
+    return this.expandedElement === element;
+  }
+
+  //Alterna el estado expandido y recogido de una fila seleccionada
+  AlternarVisualizacionDetallesFila(element: Evento) {
+    this.expandedElement = this.FilaExpandida(element) ? undefined : element;
   }
 
   //Retorna y reestructura la lista de todos los eventos disponibles q hay en el sistema
@@ -129,12 +148,12 @@ export class EventosComponent {
   }
 
   //Coloca en negrita el texto q coincide con la búsqueda realizada por el usuario
-  ResaltarCoincidencia(text: string, search: string) {
-    if (!search)
-      return text;
+  ResaltarCoincidencia(valorRegistro: string, textoBusqueda: string) {
+    if (!textoBusqueda)
+      return valorRegistro;
 
-    const regex = new RegExp(`(${search})`, 'i'); //Flag 'g' para búsqueda global y resalte todas las apariciones, y Flag 'i' para ignorar mayúsculas/minúsculas
-    const resultado = text.replace(regex, '<strong>$1</strong>');
+    const regex = new RegExp(`(${textoBusqueda})`, 'i'); //Flag 'g' para búsqueda global y resalte todas las apariciones, y Flag 'i' para ignorar mayúsculas/minúsculas
+    const resultado = valorRegistro.replace(regex, '<strong>$1</strong>');
 
     return this.sanitizer.bypassSecurityTrustHtml(resultado);
   }
@@ -286,6 +305,7 @@ export class EventosComponent {
       next: (respuesta) => {
         if (respuesta.isSuccess) {
           sessionStorage.removeItem("idUsuario");
+          sessionStorage.removeItem("nombreUsuario");
           sessionStorage.removeItem("accessToken");
 
           this.router.navigate(['login']);

@@ -76,6 +76,7 @@ export class SessionTimeoutService {
       next: (respuesta) => {
         if (respuesta.isSuccess) {
           sessionStorage.removeItem("idUsuario");
+          sessionStorage.removeItem("nombreUsuario");
           sessionStorage.removeItem("accessToken");
 
           this._servicioUtilidad.MostarAlerta(`${respuesta.mensaje}`, "OK 😊");
