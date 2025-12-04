@@ -129,7 +129,14 @@ tr.element-row:not(.expanded-row):hover {
     transform: rotate(180deg);
 }
 
+.mat-column-acciones {
+    text-align: right;
+    width: auto;
+    padding-right: 0px;
+}
+
 .mat-column-expand {
     text-align: right;
-    padding-right: 1%;
+    width: 50px;
+    padding-left: 0px;
 }

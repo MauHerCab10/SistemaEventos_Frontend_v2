@@ -59,7 +59,7 @@ import { SessionTimeoutService } from '../../../services/session-timeout-service
 export class EventosComponent {
   screenLoading: boolean = false;
   router = inject(Router);
-  columnasTablaSinExpansion: string[] = ['nombreEvento']; //'fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones' //'idEvento','idUsuarioCreacion','cuposDisponibles','descripcion'
+  columnasTablaSinExpansion: string[] = ['nombreEvento', 'acciones']; //'fechaHora','direccion_Ubicacion','capMaxPermitida','cantidadAsistentes','usuarioInscrito','acciones' //'idEvento','idUsuarioCreacion','cuposDisponibles','descripcion'
   columnasTablaConExpansion = [...this.columnasTablaSinExpansion, 'expand'];
   dataOrigenDatos: Evento[] = [];
   dataListaEventos = new MatTableDataSource(this.dataOrigenDatos); //dataListaEventos = fuente de datos de nuestra tabla de Eventos

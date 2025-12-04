@@ -42,6 +42,65 @@
                     <td mat-cell *matCellDef="let element" class="texto-cabecera-evento" [innerHTML]="ResaltarCoincidencia(element.nombreEvento, textoBusqueda)"></td>
                 </ng-container>
                 
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        @if (element.idUsuarioCreacion == idUsuario) {
+                            <ng-container>
+                                <button mat-icon-button 
+                                        color="primary" 
+                                        matTooltip="EDITAR" 
+                                        #tooltip1="matTooltip"
+                                        (mouseenter)="tooltip1.show()"
+                                        (mouseleave)="tooltip1.hide()"
+                                        (click)="ModalEditarEvento(element); $event.stopPropagation()">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+
+                                <button mat-icon-button 
+                                        color="warn" 
+                                        matTooltip="ELIMINAR" 
+                                        #tooltip2="matTooltip"
+                                        (mouseenter)="tooltip2.show()"
+                                        (mouseleave)="tooltip2.hide()"
+                                        (click)="ModalEliminarEvento(element); $event.stopPropagation()" 
+                                        [disabled]="element.cantidadAsistentes > 0">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </ng-container>
+                        }
+
+                        @if (element.idUsuarioCreacion != idUsuario) {
+                            <ng-container>
+                                @if (element.cuposDisponibles > 0 && !element.esUsuarioInscrito && suscripcionesUsuarioActual < 3) {
+                                    <button mat-icon-button 
+                                            class="custom-color-inscripcion" 
+                                            matTooltip="¡Inscribirse al evento!" 
+                                            #tooltip1="matTooltip"
+                                            (mouseenter)="tooltip1.show()"
+                                            (mouseleave)="tooltip1.hide()"
+                                            (click)="ModalInscripcionAEvento(element); 
+                                            $event.stopPropagation()">
+                                        <mat-icon>person_add_alt_1</mat-icon>
+                                    </button>
+                                }
+                                @if (element.esUsuarioInscrito) {
+                                    <button mat-icon-button 
+                                            class="custom-color-dimision" 
+                                            matTooltip="¡Retirarse del evento!" 
+                                            #tooltip1="matTooltip"
+                                            (mouseenter)="tooltip1.show()"
+                                            (mouseleave)="tooltip1.hide()"
+                                            (click)="ModalDimisionDeEvento(element); 
+                                            $event.stopPropagation()">
+                                        <mat-icon>person_add_disabled</mat-icon>
+                                    </button>
+                                }
+                            </ng-container>
+                        }
+                    </td>
+                </ng-container>
+
                 <ng-container matColumnDef="expand">
                     <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
                     <td mat-cell *matCellDef="let element">
@@ -76,35 +135,6 @@
                                         }">
                                         {{ element.esUsuarioInscrito ? 'Sí' : 'No' }}</span>
                                     </div>
-                                    
-                                    @if (element.idUsuarioCreacion == idUsuario) {
-                                        <ng-container>
-                                            <button mat-icon-button color="primary" matTooltip="EDITAR" (click)="ModalEditarEvento(element)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button>
-                                            <button mat-icon-button color="warn" matTooltip="ELIMINAR" (click)="ModalEliminarEvento(element)" [disabled]="element.cantidadAsistentes > 0">
-                                                <mat-icon>delete</mat-icon>
-                                            </button>
-                                        </ng-container>
-                                    }
-
-                                    @if (element.idUsuarioCreacion != idUsuario) {
-                                        <ng-container>
-                                            @if (element.cuposDisponibles > 0 && !element.esUsuarioInscrito && suscripcionesUsuarioActual < 3) {
-                                                <button mat-icon-button class="custom-color-inscripcion" matTooltip="¡Inscribirse al evento!" (click)="ModalInscripcionAEvento(element)">
-                                                    <mat-icon>person_add_alt_1</mat-icon>
-                                                </button>
-                                            }
-                                            @if (element.esUsuarioInscrito) {
-                                                <button mat-icon-button class="custom-color-dimision" matTooltip="¡Retirarse del evento!" (click)="ModalDimisionDeEvento(element)">
-                                                    <mat-icon>person_add_disabled</mat-icon>
-                                                </button>
-                                            }
-                                        </ng-container>
-                                    }
-                                </div>
-                                <div>
-                                    {{element.description}}
                                 </div>
                             </div>
                         </div>

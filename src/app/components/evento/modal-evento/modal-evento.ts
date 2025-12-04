@@ -68,11 +68,11 @@ export class ModalEvento {
     private _servicioUtilidad: UtilityService
   ){
     this.formEvento = this.fb.group({
-      nombreEvento: ['', Validators.required],
+      nombreEvento: ['', [Validators.required, Validators.maxLength(100)]],
       descripcion: ['', Validators.required],
       fechaEvento: ['', Validators.required],
       horaEvento: ['', Validators.required],
-      direccion_Ubicacion: ['', Validators.required],
+      direccion_Ubicacion: ['', [Validators.required, Validators.maxLength(300)]],
       capMaxPermitida: ['', Validators.required],
       idUsuarioCreacion: ['']
     });
