@@ -125,6 +125,9 @@ export class EventosComponent {
           
         this.suscripcionesUsuarioActual = response.valor.filter((evento: { esUsuarioInscrito: boolean; }) => evento.esUsuarioInscrito).length;
         } else {
+          this.dataListaEventos.data = [];
+          this.suscripcionesUsuarioActual = 0;
+          this.expandedElement = undefined;
           // this._servicioUtilidad.MostarAlerta("No tienes ningún evento registrado.", "Oops!");
         }
       },
