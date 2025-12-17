@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, OnInit, inject, ChangeDetectorRef  } from '@angular/core'; //ViewChild: nos permite crear una instancia de algún componente q tenemos dentro de nuestro HTML
+import { Component, ViewChild, inject, ChangeDetectorRef  } from '@angular/core'; //ViewChild: nos permite crear una instancia de algún componente q tenemos dentro de nuestro HTML
 import { CommonModule, DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -112,6 +112,8 @@ export class EventosComponent {
   //Retorna y reestructura la lista de todos los eventos disponibles q hay en el sistema
   ObtenerEventos(){
     this.screenLoading = true;
+    this.cdr.detectChanges();
+
     this._servicioEvento.ConsultarEventosDisponibles(this.idUsuario).subscribe({
       next: (response) => {
         if(response.isSuccess) {
@@ -140,6 +142,7 @@ export class EventosComponent {
       },
       complete: () => {
         this.screenLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -302,6 +305,8 @@ export class EventosComponent {
   //Permite al usuario cerrar su sesión en el sistema
   CerrarSesion(){
     this.screenLoading = true;
+    this.cdr.detectChanges();
+
     let accessToken:string = sessionStorage.getItem('accessToken') ?? "";
 
     this._servicioAcceso.CerrarSesion(accessToken).subscribe({
@@ -325,6 +330,7 @@ export class EventosComponent {
       },
       complete: () => {
         this.screenLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }

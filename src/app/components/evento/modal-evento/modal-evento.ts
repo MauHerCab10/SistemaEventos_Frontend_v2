@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -65,7 +65,8 @@ export class ModalEvento {
     private modalActual: MatDialogRef<ModalEvento>,
     @Inject(MAT_DIALOG_DATA) public datosEvento: Evento,
     private _servicioEvento: EventoService,
-    private _servicioUtilidad: UtilityService
+    private _servicioUtilidad: UtilityService,
+    private cdr: ChangeDetectorRef
   ){
     this.formEvento = this.fb.group({
       nombreEvento: ['', [Validators.required, Validators.maxLength(100)]],
@@ -119,6 +120,8 @@ export class ModalEvento {
   //Crea o Actualiza un evento, según el modo del formulario (de Creación o de Edición)
   GuardarEditar_Evento() {
     this.screenLoading = true;
+    this.cdr.detectChanges();
+
     let formatFechaEvento = moment(this.formEvento.value.fechaEvento).format('DD/MM/YYYY');
     let idUsuario = sessionStorage.getItem('idUsuario') || '';
 
@@ -150,6 +153,7 @@ export class ModalEvento {
         },
         complete: () => {
           this.screenLoading = false;
+          this.cdr.detectChanges();
         }
       })
     } else {
@@ -169,6 +173,7 @@ export class ModalEvento {
         },
         complete: () => {
           this.screenLoading = false;
+          this.cdr.detectChanges();
         }
       })
     }
