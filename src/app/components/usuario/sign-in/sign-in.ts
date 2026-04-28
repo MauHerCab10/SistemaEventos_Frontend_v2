@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,6 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 import { AccessService } from '../../../services/access-service';
 import { UtilityService } from '../../../services/utility-service';
 import { Login } from '../../../interfaces/Login';
+import { AuthGoogle } from '../../../interfaces/AuthGoogle';
+import { appsettings } from '../../../settings/appsettings';
+
+declare const google: any;
 
 @Component({
   selector: 'app-signin',
@@ -15,7 +19,7 @@ import { Login } from '../../../interfaces/Login';
   templateUrl: './sign-in.html',
   styleUrls: ['../autenticacion.css', './sign-in.css']
 })
-export class SignInComponent {
+export class SignInComponent implements AfterViewInit {
   constructor(
     private _servicioUtilidad: UtilityService,
     private _servicioAcceso: AccessService,
@@ -29,6 +33,7 @@ export class SignInComponent {
 
   private router = inject(Router);
   public fb = inject(FormBuilder);
+  private ngZone = inject(NgZone);
 
   public formSignIn: FormGroup = this.fb.group({
     email: ["", Validators.required],
@@ -77,11 +82,76 @@ export class SignInComponent {
     });
   }
 
-  // Manejar el Login con Redes Sociales
+  // Manejar el Login con Redes Sociales (solo Facebook y LinkedIn, Google usa renderButton)
   onSocialLogin(provider: string) {
-    console.log(`Login desde SignIn con ${provider}`);
     this.socialLogin.emit(provider);
-    // implementar lógica para procesar el Login con redes sociales
+  }
+
+  // Inicializa "Sign In With Google" al cargar la vista
+  ngAfterViewInit() {
+    const initGoogle = () => {
+      if (typeof google !== 'undefined') {
+        google.accounts.id.initialize({
+          client_id: appsettings.googleClientId,
+          callback: (response: any) => {
+            this.ngZone.run(() => this.procesarLoginGoogle(response.credential));
+          },
+          auto_select: false,
+          cancel_on_tap_outside: true,
+        });
+      } else {
+        setTimeout(initGoogle, 200);
+      }
+    };
+    initGoogle();
+  }
+
+  // Abre el popup de Google al hacer clic en el botón personalizado
+  onGoogleLogin() {
+    if (typeof google !== 'undefined') {
+      google.accounts.id.prompt();
+    }
+  }
+
+  // Decodifica el ID token JWT de Google y llama al backend para autenticar al usuario
+  private procesarLoginGoogle(credentialJwt: string) {
+    try {
+      const base64Url = credentialJwt.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const binary = window.atob(base64);
+      const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+      const payload = JSON.parse(new TextDecoder().decode(bytes));
+
+      const authGoogle: AuthGoogle = {
+        nombre: payload.name,
+        email: payload.email,
+        googleSub: payload.sub,
+      };
+
+      this.screenLoadingChange.emit(true);
+
+      this._servicioAcceso.AutenticarUsuarioGoogle(authGoogle).subscribe({
+        next: (respuesta) => {
+          if (respuesta.isSuccess) {
+            sessionStorage.setItem('idUsuario', respuesta.idUsuario.toString());
+            sessionStorage.setItem('nombreUsuario', respuesta.nombreUsuario);
+            sessionStorage.setItem('accessToken', respuesta.accessToken);
+            this.router.navigate(['inicio']);
+            this._servicioUtilidad.MostarAlerta(`¡Bienvenido, ${respuesta.nombreUsuario}! 😊`, 'OK 😊');
+          } else {
+            this._servicioUtilidad.MostarAlerta(respuesta.mensaje, 'ERROR 😢');
+          }
+        },
+        error: (err) => {
+          this._servicioUtilidad.MostarAlerta('No se pudo completar el inicio de sesión con Google', 'ERROR 😢');
+        },
+        complete: () => {
+          this.screenLoadingChange.emit(false);
+        }
+      });
+    } catch {
+      this._servicioUtilidad.MostarAlerta('No se pudo procesar el token de Google', 'ERROR 😢');
+    }
   }
 
   //Se visualiza el componente de recuperación de contraseña

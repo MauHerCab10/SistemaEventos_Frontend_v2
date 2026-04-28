@@ -255,6 +255,9 @@ input:focus {
 /* INICIO Redes sociales */
 .social-container {
   margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .social-container a {

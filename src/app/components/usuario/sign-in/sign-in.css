@@ -11,3 +11,10 @@
 .btn-loguearse:hover {
   opacity: 0.8;
 }
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
