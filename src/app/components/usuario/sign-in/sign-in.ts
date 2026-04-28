@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject, AfterViewInit, NgZone } from '@angular/core';
+import { Component, Output, EventEmitter, inject, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ declare const google: any;
   templateUrl: './sign-in.html',
   styleUrls: ['../autenticacion.css', './sign-in.css']
 })
-export class SignInComponent implements AfterViewInit {
+export class SignInComponent {
   constructor(
     private _servicioUtilidad: UtilityService,
     private _servicioAcceso: AccessService,
@@ -87,28 +87,17 @@ export class SignInComponent implements AfterViewInit {
     this.socialLogin.emit(provider);
   }
 
-  // Inicializa "Sign In With Google" al cargar la vista
-  ngAfterViewInit() {
-    const initGoogle = () => {
-      if (typeof google !== 'undefined') {
-        google.accounts.id.initialize({
-          client_id: appsettings.googleClientId,
-          callback: (response: any) => {
-            this.ngZone.run(() => this.procesarLoginGoogle(response.credential));
-          },
-          auto_select: false,
-          cancel_on_tap_outside: true,
-        });
-      } else {
-        setTimeout(initGoogle, 200);
-      }
-    };
-    initGoogle();
-  }
-
-  // Abre el popup de Google al hacer clic en el botón personalizado
+  // Inicializa Google e inmediatamente abre el popup al hacer clic en el botón personalizado
   onGoogleLogin() {
     if (typeof google !== 'undefined') {
+      google.accounts.id.initialize({
+        client_id: appsettings.googleClientId,
+        callback: (response: any) => {
+          this.ngZone.run(() => this.procesarLoginGoogle(response.credential));
+        },
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
       google.accounts.id.prompt();
     }
   }
