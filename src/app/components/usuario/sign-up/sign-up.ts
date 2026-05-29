@@ -82,7 +82,7 @@ export class SignUpComponent {
   }
 
   // Inicializa Google e inmediatamente abre el popup al hacer clic en el botón personalizado
-  onGoogleLogin() {
+  onGoogleSignup() {
     if (typeof google !== 'undefined') {
       google.accounts.id.initialize({
         client_id: appsettings.googleClientId,
