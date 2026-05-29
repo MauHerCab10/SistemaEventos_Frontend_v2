@@ -1,16 +1,14 @@
-import { Component, Output, EventEmitter, inject, NgZone } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Output, EventEmitter, ViewChild, inject, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
 import { AccessService } from '../../../services/access-service';
+import { GoogleIdentityService } from '../../../services/google-identity-service';
 import { UtilityService } from '../../../services/utility-service';
 import { Login } from '../../../interfaces/Login';
 import { AuthGoogle } from '../../../interfaces/AuthGoogle';
-import { appsettings } from '../../../settings/appsettings';
-
-declare const google: any;
 
 @Component({
   selector: 'app-signin',
@@ -19,17 +17,21 @@ declare const google: any;
   templateUrl: './sign-in.html',
   styleUrls: ['../autenticacion.css', './sign-in.css']
 })
-export class SignInComponent {
+export class SignInComponent implements AfterViewInit {
   constructor(
     private _servicioUtilidad: UtilityService,
     private _servicioAcceso: AccessService,
     private route: ActivatedRoute,
+    private googleIdentityService: GoogleIdentityService,
   ){ }
 
   @Output() socialLogin = new EventEmitter<string>();
   @Output() signInSubmit = new EventEmitter<any>();
   @Output() forgotPassword = new EventEmitter<void>();
   @Output() screenLoadingChange = new EventEmitter<boolean>();
+
+  @ViewChild('googleLoginButton', { static: true })
+  private googleLoginButton?: ElementRef<HTMLDivElement>;
 
   private router = inject(Router);
   public fb = inject(FormBuilder);
@@ -39,6 +41,24 @@ export class SignInComponent {
     email: ["", Validators.required],
     contrasena: ["", Validators.required],
   });
+
+  //Permite al usuario iniciar sesión en el sistema con Google utilizando el SDK de Google Identity Services
+  ngAfterViewInit() {
+    if (!this.googleLoginButton) {
+      return;
+    }
+
+    this.googleIdentityService
+      .registerButton(
+        this.googleLoginButton.nativeElement,
+        'signin',
+        'signin_with',
+        (credential) => this.procesarLoginGoogle(credential),
+      )
+      .catch(() => {
+        this._servicioUtilidad.MostarAlerta('No se pudo cargar el acceso con Google', 'ERROR 😢');
+      });
+  }
 
 
   //Permite al usuario iniciar sesión en el sistema
@@ -85,21 +105,6 @@ export class SignInComponent {
   // Manejar el Login con Redes Sociales (solo Facebook y LinkedIn, Google usa renderButton)
   onSocialLogin(provider: string) {
     this.socialLogin.emit(provider);
-  }
-
-  // Inicializa Google e inmediatamente abre el popup al hacer clic en el botón personalizado
-  onGoogleLogin() {
-    if (typeof google !== 'undefined') {
-      google.accounts.id.initialize({
-        client_id: appsettings.googleClientId,
-        callback: (response: any) => {
-          this.ngZone.run(() => this.procesarLoginGoogle(response.credential));
-        },
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      });
-      google.accounts.id.prompt();
-    }
   }
 
   // Decodifica el ID token JWT de Google y llama al backend para autenticar al usuario

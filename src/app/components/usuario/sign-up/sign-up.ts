@@ -1,15 +1,13 @@
-import { Component, Output, EventEmitter, inject, NgZone } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Output, EventEmitter, ViewChild, inject, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AccessService } from '../../../services/access-service';
+import { GoogleIdentityService } from '../../../services/google-identity-service';
 import { UtilityService } from '../../../services/utility-service';
 import { Registro } from '../../../interfaces/Registro';
 import { AuthGoogle } from '../../../interfaces/AuthGoogle';
-import { appsettings } from '../../../settings/appsettings';
-
-declare const google: any;
 
 @Component({
   selector: 'app-signup',
@@ -18,16 +16,20 @@ declare const google: any;
   templateUrl: './sign-up.html',
   styleUrls: ['../autenticacion.css', './sign-up.css']
 })
-export class SignUpComponent {
+export class SignUpComponent implements AfterViewInit {
   constructor(
     private _servicioUtilidad: UtilityService,
-    private _servicioAcceso: AccessService
+    private _servicioAcceso: AccessService,
+    private googleIdentityService: GoogleIdentityService,
   ){ }
 
   @Output() socialLogin = new EventEmitter<string>();
   @Output() signUpSubmit = new EventEmitter<any>();
   @Output() registroExitoso = new EventEmitter<void>();
   @Output() screenLoadingChange = new EventEmitter<boolean>();
+
+  @ViewChild('googleSignupButton', { static: true })
+  private googleSignupButton?: ElementRef<HTMLDivElement>;
 
   public fb = inject(FormBuilder);
   private router = inject(Router);
@@ -38,6 +40,24 @@ export class SignUpComponent {
     email: ["", Validators.required],
     contrasena: ["", Validators.required],
   });
+
+  //Permite al usuario registrarse en el sistema con Google utilizando el SDK de Google Identity Services
+  ngAfterViewInit() {
+    if (!this.googleSignupButton) {
+      return;
+    }
+
+    this.googleIdentityService
+      .registerButton(
+        this.googleSignupButton.nativeElement,
+        'signup',
+        'signup_with',
+        (credential) => this.procesarSignupGoogle(credential),
+      )
+      .catch(() => {
+        this._servicioUtilidad.MostarAlerta('No se pudo cargar el acceso con Google', 'ERROR 😢');
+      });
+  }
 
   //Permite al usuario registrarse en el sistema
   RegistrarUsuario(){
@@ -79,21 +99,6 @@ export class SignUpComponent {
   // Manejar el Registro con Redes Sociales (solo Facebook y LinkedIn, Google usa renderButton)
   onSocialLogin(provider: string) {
     this.socialLogin.emit(provider);
-  }
-
-  // Inicializa Google e inmediatamente abre el popup al hacer clic en el botón personalizado
-  onGoogleSignup() {
-    if (typeof google !== 'undefined') {
-      google.accounts.id.initialize({
-        client_id: appsettings.googleClientId,
-        callback: (response: any) => {
-          this.ngZone.run(() => this.procesarSignupGoogle(response.credential));
-        },
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      });
-      google.accounts.id.prompt();
-    }
   }
 
   // Decodifica el ID token JWT de Google y llama al backend para registrar el usuario

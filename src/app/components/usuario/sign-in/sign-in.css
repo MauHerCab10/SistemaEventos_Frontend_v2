@@ -18,3 +18,13 @@
   object-fit: contain;
   display: block;
 }
+
+.google-social-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 0 5px;
+  line-height: 0;
+}
