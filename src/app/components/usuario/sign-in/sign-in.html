@@ -5,7 +5,10 @@
         <a href="#" class="social" (click)="onSocialLogin('facebook')">
             <i class="fab fa-facebook-f"></i>
         </a>
-        <div #googleLoginButton class="google-social-button" aria-label="Acceso con Google"></div>
+        <a class="social google-custom-wrapper">
+            <i class="fab fa-google"></i>
+            <div #googleLoginButton class="google-sdk-overlay" aria-label="Acceso con Google"></div>
+        </a>
         <a href="#" class="social" (click)="onSocialLogin('linkedin')">
             <i class="fab fa-linkedin-in"></i>
         </a>
