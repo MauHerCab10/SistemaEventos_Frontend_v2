@@ -1,49 +1,48 @@
 ::ng-deep .mdc-dialog__surface {
-  border-radius: 20px !important;
+  border-radius: 18px !important;
+}
+
+:host ::ng-deep .mat-mdc-dialog-container {
+  background: linear-gradient(170deg, #ffffff, #f3f9ff) !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(31, 84, 170, 0.14);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2) !important;
 }
 
 .session-warning-dialog {
-  padding: 25px;
+  padding: 18px 20px 8px;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 .title {
-  color: #3f51b5;
-  font-weight: 600;
-  font-size: 1.6rem !important;
-  margin-bottom: 0.5rem;
+  color: #18426f;
+  font-weight: 800;
+  font-size: 1.45rem !important;
+  margin-bottom: 0.4rem;
 }
 
 .content p {
   margin: 0;
-  font-size: 1.1rem;
-  color: #424242;
+  font-size: 1.03rem;
+  color: #3b5577;
 }
 
 .content strong {
-  color: #d32f2f;
-  font-weight: 700;
-  font-size: 1.3rem;
+  color: #dc3545;
+  font-weight: 800;
+  font-size: 1.2rem;
 }
 
 mat-dialog-actions button {
-  min-width: 140px;
-  font-weight: 600;
-  border-radius: 30px !important;
-  padding: 0.5rem 2rem;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: scale(1.05);
-    background-color: rgb(0, 189, 0) !important;
-  }
+  min-width: 190px;
+  font-weight: 700;
+  border-radius: 999px !important;
+  padding: 0.55rem 1.8rem;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-:host {
-  ::ng-deep .mat-mdc-dialog-container {
-    background: linear-gradient(170deg, #f5f5f5, #e3f2fd) !important;
-    border-radius: 16px !important;
-    box-shadow: 0 11px 35px rgba(0, 0, 0, 0.2) !important;
-  }
+mat-dialog-actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(31, 111, 235, 0.32);
 }
