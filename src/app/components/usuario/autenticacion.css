@@ -93,7 +93,6 @@ input:focus {
 }
 /* FIN controles estandar */
 
-
 /* INICIO Contenedor principal de elementos en pantalla */
 .page-container {
   display: flex;
@@ -115,24 +114,33 @@ input:focus {
 .page-container::after {
   content: '';
   position: absolute;
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  filter: blur(20px);
+  inset: 0;
   z-index: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.75s ease;
 }
 
 .page-container::before {
-  top: -140px;
-  left: -90px;
-  background: rgba(31, 111, 235, 0.2);
+  background:
+    radial-gradient(900px 520px at 12% 8%, rgba(124, 58, 237, 0.24), transparent 58%),
+    radial-gradient(920px 500px at 90% 90%, rgba(236, 72, 153, 0.22), transparent 56%),
+    linear-gradient(135deg, #fbf7ff, #f6efff 45%, #fff1f8);
 }
 
 .page-container::after {
-  right: -120px;
-  bottom: -150px;
-  background: rgba(10, 157, 97, 0.18);
+  background:
+    radial-gradient(920px 540px at 8% 10%, rgba(245, 158, 11, 0.24), transparent 60%),
+    radial-gradient(900px 500px at 92% 88%, rgba(14, 165, 233, 0.21), transparent 56%),
+    linear-gradient(135deg, #fffaf1, #fff4dd 45%, #eef9ff);
+}
+
+.page-container.mode-signup::before {
+  opacity: 1;
+}
+
+.page-container.mode-forgot::after {
+  opacity: 1;
 }
 
 .container {

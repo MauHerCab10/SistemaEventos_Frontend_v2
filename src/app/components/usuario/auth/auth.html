@@ -1,4 +1,6 @@
-<div class="page-container">
+<div class="page-container"
+  [class.mode-signup]="isSignUpMode"
+  [class.mode-forgot]="isForgotPasswordMode">
   <div class="container" 
        [class.right-panel-visibility]="isSignUpMode"
        [class.forgot-password-visibility]="isForgotPasswordMode"
